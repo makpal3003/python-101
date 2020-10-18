@@ -1,1 +1,18 @@
-
+#!/bin/bash
+#if a trash directory exists, then move the specified file to trash(RECYCLE). 
+#If there is no trash(RECYCLE) directory, then create it and place the specified file there
+if [ -e ~/RECYCLE ]
+  then
+    mv "$1" ~/RECYCLE
+  else 
+    mkdir ~/RECYCLE
+    mv "$1" ~/RECYCLE
+fi
+#check if there is a file in ~ / RECYCLE - then display a message that the file has been moved to the trash
+if [ -e ~/RECYCLE/$1 ]
+   then
+    echo "$1" 'перемещен в корзину'
+ #compress the moved file in the trash can
+   gzip ~/RECYCLE/$1
+   find ~/RECYCLE/ -mtime +6 -type f -delete
+fi
